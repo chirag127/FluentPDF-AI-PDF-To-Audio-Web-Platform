@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SpeakFlow - Cached AI PDF Converter</title>
+    <title>SpeakFlow - Pro AI PDF Converter</title>
 
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
@@ -29,9 +29,7 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
     <script>pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';</script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
-
     <script src="https://cdn.jsdelivr.net/npm/idb@7/build/umd.js"></script>
-
     <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
 
     <style>
@@ -40,7 +38,8 @@
         ::-webkit-scrollbar-thumb { background: #94a3b8; border-radius: 3px; }
         .glass-panel { background: rgba(255, 255, 255, 0.95); backdrop-filter: blur(12px); border: 1px solid rgba(226, 232, 240, 0.8); }
         .dark .glass-panel { background: rgba(15, 23, 42, 0.95); border: 1px solid rgba(51, 65, 85, 0.8); }
-        select { -webkit-appearance: none; background-image: url("data:image/svg+xml;charset=utf-8,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 20 20'%3E%3Cpath stroke='%2364748b' stroke-linecap='round' stroke-linejoin='round' stroke-width='1.5' d='M6 8l4 4 4-4'/%3E%3C/svg%3E"); background-position: right 0.75rem center; background-repeat: no-repeat; background-size: 1.25em 1.25em; }
+        select, textarea, input { transition: all 0.2s; }
+        select:focus, textarea:focus, input:focus { ring: 2px; ring-color: #6366f1; border-color: transparent; }
     </style>
 </head>
 <body class="bg-slate-50 text-slate-900 dark:bg-slate-950 dark:text-slate-100 transition-colors duration-300 min-h-screen flex flex-col font-sans">
@@ -50,17 +49,17 @@
             <div class="flex justify-between h-16 items-center">
                 <div class="flex items-center gap-3">
                     <div class="w-10 h-10 bg-gradient-to-br from-primary to-purple-600 rounded-xl flex items-center justify-center text-white shadow-lg shadow-primary/20">
-                        <i class="fa-solid fa-layer-group"></i>
+                        <i class="fa-solid fa-wave-square"></i>
                     </div>
                     <div>
                         <span class="font-bold text-lg tracking-tight block leading-none">SpeakFlow</span>
-                        <span class="text-[10px] font-mono text-slate-500 dark:text-slate-400 uppercase tracking-wide">Smart Cache Engine</span>
+                        <span class="text-[10px] font-mono text-slate-500 dark:text-slate-400 uppercase tracking-wide">Pro Edition</span>
                     </div>
                 </div>
                 <div class="flex items-center gap-3">
                     <button id="themeToggle" class="p-2 rounded-lg hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors"><i class="fa-solid fa-moon dark:hidden"></i><i class="fa-solid fa-sun hidden dark:block text-yellow-400"></i></button>
                     <button onclick="app.ui.openSettings()" class="p-2 rounded-lg hover:bg-slate-100 dark:hover:bg-slate-800 relative group">
-                        <i class="fa-solid fa-gear group-hover:rotate-90 transition-transform duration-500"></i>
+                        <i class="fa-solid fa-sliders group-hover:rotate-180 transition-transform duration-500"></i>
                         <span id="settingsBadge" class="absolute top-1.5 right-1.5 w-2 h-2 bg-red-500 rounded-full hidden animate-pulse"></span>
                     </button>
                 </div>
@@ -76,10 +75,10 @@
                 <input type="file" id="fileInput" accept=".pdf" class="absolute inset-0 w-full h-full opacity-0 cursor-pointer z-10">
                 <div class="relative z-20 transition-transform group-hover:scale-[1.02] duration-300">
                     <div class="w-16 h-16 bg-slate-100 dark:bg-slate-800 rounded-2xl flex items-center justify-center mx-auto mb-4 text-primary group-hover:bg-primary group-hover:text-white transition-colors">
-                        <i class="fa-solid fa-database text-2xl"></i>
+                        <i class="fa-solid fa-file-import text-2xl"></i>
                     </div>
-                    <h3 class="text-xl font-bold mb-2">Upload PDF</h3>
-                    <p class="text-sm text-slate-500">Checks local database for instant loading.</p>
+                    <h3 class="text-xl font-bold mb-2">Upload PDF Document</h3>
+                    <p class="text-sm text-slate-500">Checks local cache • Processes visually</p>
                 </div>
             </div>
 
@@ -94,7 +93,7 @@
                 <div class="flex gap-2 w-full sm:w-auto">
                     <button onclick="app.core.clearFile()" class="p-3 text-slate-400 hover:text-red-500 transition-colors"><i class="fa-solid fa-times"></i></button>
                     <button onclick="app.core.startProcessing()" id="processBtn" class="flex-1 bg-primary hover:bg-indigo-600 text-white font-semibold py-3 px-6 rounded-xl shadow-lg transition-all flex items-center gap-2 whitespace-nowrap">
-                        <i class="fa-solid fa-bolt"></i> Process
+                        <i class="fa-solid fa-wand-magic-sparkles"></i> Process
                     </button>
                 </div>
             </div>
@@ -102,28 +101,32 @@
             <div id="progressPanel" class="hidden glass-panel rounded-3xl p-8 space-y-6">
                 <div class="flex justify-between items-end">
                     <div>
-                        <h3 class="font-bold text-lg">Processing Document</h3>
-                        <p id="strategyStatus" class="text-xs text-slate-500 font-mono uppercase mt-1">Initializing...</p>
+                        <h3 class="font-bold text-lg">Optimization Engine</h3>
+                        <p id="strategyStatus" class="text-xs text-slate-500 font-mono uppercase mt-1">Starting...</p>
                     </div>
                     <span id="totalProgressText" class="text-4xl font-black text-transparent bg-clip-text bg-gradient-to-r from-primary to-purple-500">0%</span>
                 </div>
                 <div class="bg-slate-50 dark:bg-slate-800 rounded-xl p-4 border border-slate-200 dark:border-slate-700">
+                    <div class="flex justify-between text-[10px] uppercase font-bold text-slate-400 mb-2">
+                        <span>Batch Map</span>
+                        <span id="concurrencyIndicator">Concurrency: 1x</span>
+                    </div>
                     <div id="batchContainer" class="grid grid-cols-12 gap-1.5 max-h-[150px] overflow-y-auto custom-scrollbar"></div>
                 </div>
-                <button onclick="location.reload()" class="text-red-500 text-xs font-bold hover:underline">STOP</button>
+                <button onclick="location.reload()" class="text-red-500 text-xs font-bold hover:underline">ABORT</button>
             </div>
 
             <div id="resultPanel" class="hidden glass-panel rounded-3xl p-10 text-center border-t-4 border-secondary">
                 <div class="w-20 h-20 bg-emerald-100 dark:bg-emerald-900/30 text-emerald-600 rounded-full flex items-center justify-center mx-auto mb-4 text-3xl">
                     <i class="fa-solid fa-check"></i>
                 </div>
-                <h2 class="text-2xl font-bold mb-2">Conversion Complete</h2>
-                <p class="text-slate-600 dark:text-slate-400 mb-8 text-sm">Saved to local database for future access.</p>
+                <h2 class="text-2xl font-bold mb-2">Ready for Audio</h2>
+                <p class="text-slate-600 dark:text-slate-400 mb-8 text-sm">Document optimized and saved to local library.</p>
                 <div class="flex justify-center gap-4">
                     <button onclick="app.core.downloadFinal()" class="bg-secondary hover:bg-emerald-600 text-white font-bold py-3 px-8 rounded-xl shadow-lg flex items-center gap-2">
                         <i class="fa-solid fa-download"></i> Download PDF
                     </button>
-                    <button onclick="location.reload()" class="bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 py-3 px-6 rounded-xl font-semibold hover:bg-slate-50">New File</button>
+                    <button onclick="location.reload()" class="bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 py-3 px-6 rounded-xl font-semibold hover:bg-slate-50">Convert Another</button>
                 </div>
             </div>
         </div>
@@ -131,7 +134,7 @@
         <div class="lg:col-span-4 space-y-6">
             <div class="glass-panel rounded-2xl overflow-hidden flex flex-col h-[500px] shadow-sm">
                 <div class="p-4 border-b border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-800 flex justify-between items-center">
-                    <span class="text-xs font-bold uppercase text-slate-500">Engine Logs</span>
+                    <span class="text-xs font-bold uppercase text-slate-500">Live Logs</span>
                     <span id="activeProvider" class="text-[10px] font-mono bg-slate-200 dark:bg-slate-700 px-2 py-1 rounded">IDLE</span>
                 </div>
                 <div id="logConsole" class="flex-1 overflow-y-auto bg-slate-950 p-4 font-mono text-[10px] space-y-2">
@@ -146,84 +149,112 @@
         <div class="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-full max-w-md bg-white dark:bg-slate-900 rounded-2xl shadow-2xl p-6 border border-slate-200 dark:border-slate-700">
             <div class="text-center mb-6">
                 <div class="w-16 h-16 bg-blue-100 dark:bg-blue-900/30 text-blue-600 rounded-full flex items-center justify-center mx-auto mb-4 text-2xl">
-                    <i class="fa-solid fa-history"></i>
+                    <i class="fa-solid fa-database"></i>
                 </div>
-                <h3 class="text-xl font-bold text-slate-900 dark:text-white">File Found in Cache</h3>
-                <p class="text-sm text-slate-500 dark:text-slate-400 mt-2">You have processed this file before. Would you like to load the saved version or reprocess it?</p>
+                <h3 class="text-xl font-bold">File Found in Cache</h3>
+                <p class="text-sm text-slate-500 mt-2">You've processed this before. Reprocessing costs API tokens.</p>
                 <p id="cacheDate" class="text-xs font-mono text-slate-400 mt-1"></p>
             </div>
             <div class="flex gap-3">
-                <button onclick="app.core.processCache(false)" class="flex-1 bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 text-slate-700 dark:text-slate-200 py-3 rounded-xl font-semibold text-sm transition-colors">
-                    Reprocess (Use API)
-                </button>
-                <button onclick="app.core.processCache(true)" class="flex-1 bg-primary hover:bg-indigo-600 text-white py-3 rounded-xl font-bold text-sm shadow-lg transition-colors">
-                    Load Cached PDF
-                </button>
+                <button onclick="app.core.processCache(false)" class="flex-1 bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 text-slate-700 dark:text-slate-200 py-3 rounded-xl font-semibold text-sm">Reprocess</button>
+                <button onclick="app.core.processCache(true)" class="flex-1 bg-primary hover:bg-indigo-600 text-white py-3 rounded-xl font-bold text-sm shadow-lg">Load Cached</button>
             </div>
         </div>
     </div>
 
     <div id="settingsModal" class="fixed inset-0 z-[100] hidden">
         <div class="absolute inset-0 bg-slate-900/50 backdrop-blur-sm" onclick="app.ui.closeSettings()"></div>
-        <div id="settingsPanel" class="absolute inset-y-0 right-0 max-w-md w-full bg-white dark:bg-slate-900 shadow-2xl transform translate-x-full transition-transform duration-300 flex flex-col">
+        <div id="settingsPanel" class="absolute inset-y-0 right-0 max-w-lg w-full bg-white dark:bg-slate-900 shadow-2xl transform translate-x-full transition-transform duration-300 flex flex-col">
             <div class="p-6 border-b border-slate-200 dark:border-slate-800 flex justify-between items-center">
-                <h2 class="text-lg font-bold">Configuration</h2>
-                <button onclick="app.ui.closeSettings()"><i class="fa-solid fa-times"></i></button>
+                <h2 class="text-lg font-bold flex items-center gap-2"><i class="fa-solid fa-sliders text-primary"></i> Settings</h2>
+                <button onclick="app.ui.closeSettings()"><i class="fa-solid fa-times text-xl text-slate-400"></i></button>
             </div>
-            <div class="flex-1 overflow-y-auto p-6 space-y-6">
 
-                <div class="space-y-4">
-                    <label class="block text-sm font-bold"><i class="fa-brands fa-google mr-2"></i>Gemini API</label>
-                    <input type="password" id="key_gemini" class="w-full bg-slate-50 dark:bg-slate-800 border border-slate-300 dark:border-slate-700 rounded-lg px-4 py-2 text-sm">
+            <div class="flex-1 overflow-y-auto p-6 space-y-8">
 
-                    <label class="block text-xs font-medium text-slate-500">Primary Model</label>
-                    <select id="pref_gemini_model" class="w-full bg-slate-50 dark:bg-slate-800 border border-slate-300 dark:border-slate-700 rounded-lg px-4 py-2 text-sm">
-                        <option value="gemini-2.5-flash-lite-preview-09-2025">Gemini 2.5 Flash Lite</option>
-                        <option value="gemini-2.5-flash-preview-09-2025">Gemini 2.5 Flash</option>
-                        <option value="gemini-2.5-pro">Gemini 2.5 Pro</option>
-                        <option value="gemini-3-pro-preview">Gemini 3 Pro</option>
-                    </select>
-                </div>
+                <section class="space-y-4">
+                    <h3 class="text-xs font-bold uppercase text-slate-400 tracking-widest">API Configuration</h3>
 
-                <div class="space-y-4">
-                    <label class="block text-sm font-bold"><i class="fa-solid fa-bolt mr-2 text-orange-500"></i>Groq API</label>
-                    <input type="password" id="key_groq" class="w-full bg-slate-50 dark:bg-slate-800 border border-slate-300 dark:border-slate-700 rounded-lg px-4 py-2 text-sm">
-                    <p class="text-[10px] text-slate-400">Includes Llama 3.3 70B, Mixtral 8x7b</p>
-                </div>
-
-                <div class="space-y-4">
-                    <label class="block text-sm font-bold"><i class="fa-solid fa-brain mr-2 text-pink-500"></i>Cerebras API</label>
-                    <input type="password" id="key_cerebras" class="w-full bg-slate-50 dark:bg-slate-800 border border-slate-300 dark:border-slate-700 rounded-lg px-4 py-2 text-sm">
-                    <p class="text-[10px] text-slate-400">Includes Llama 3.1 70B</p>
-                </div>
+                    <div>
+                        <label class="block text-sm font-bold mb-1">Gemini API (Primary)</label>
+                        <input type="password" id="key_gemini" class="w-full bg-slate-50 dark:bg-slate-800 border border-slate-300 dark:border-slate-700 rounded-lg px-3 py-2 text-sm focus:ring-2 focus:ring-primary outline-none">
+                    </div>
+                    <div>
+                        <label class="block text-sm font-bold mb-1">Groq API (Fallback 1)</label>
+                        <input type="password" id="key_groq" class="w-full bg-slate-50 dark:bg-slate-800 border border-slate-300 dark:border-slate-700 rounded-lg px-3 py-2 text-sm focus:ring-2 focus:ring-primary outline-none">
+                    </div>
+                    <div>
+                        <label class="block text-sm font-bold mb-1">Cerebras API (Fallback 2)</label>
+                        <input type="password" id="key_cerebras" class="w-full bg-slate-50 dark:bg-slate-800 border border-slate-300 dark:border-slate-700 rounded-lg px-3 py-2 text-sm focus:ring-2 focus:ring-primary outline-none">
+                    </div>
+                </section>
 
                 <hr class="border-slate-200 dark:border-slate-800">
 
-                <div class="grid grid-cols-2 gap-4">
-                    <div><label class="text-xs font-bold">Batch Size</label><input type="number" id="set_batchSize" value="15000" class="w-full bg-slate-50 dark:bg-slate-800 border border-slate-300 rounded p-2 text-sm"></div>
-                    <div><label class="text-xs font-bold">Retry Delay</label><input type="number" id="set_retryDelay" value="2000" class="w-full bg-slate-50 dark:bg-slate-800 border border-slate-300 rounded p-2 text-sm"></div>
-                </div>
+                <section class="space-y-4">
+                    <h3 class="text-xs font-bold uppercase text-slate-400 tracking-widest">Performance</h3>
+
+                    <div class="grid grid-cols-2 gap-4">
+                        <div>
+                            <label class="block text-xs font-bold mb-1">Concurrency</label>
+                            <input type="number" id="set_concurrency" min="1" max="10" value="1" class="w-full bg-slate-50 dark:bg-slate-800 border border-slate-300 dark:border-slate-700 rounded p-2 text-sm">
+                            <p class="text-[10px] text-slate-500 mt-1">Batches at once (Higher = Faster but hits Rate Limits)</p>
+                        </div>
+                        <div>
+                            <label class="block text-xs font-bold mb-1">Retry Delay (ms)</label>
+                            <input type="number" id="set_retryDelay" value="2000" class="w-full bg-slate-50 dark:bg-slate-800 border border-slate-300 dark:border-slate-700 rounded p-2 text-sm">
+                        </div>
+                    </div>
+                </section>
+
+                <hr class="border-slate-200 dark:border-slate-800">
+
+                <section class="space-y-4">
+                    <h3 class="text-xs font-bold uppercase text-slate-400 tracking-widest">Prompt Engineering</h3>
+
+                    <div>
+                        <label class="block text-xs font-bold mb-1">System Instruction</label>
+                        <textarea id="set_sysPrompt" rows="3" class="w-full bg-slate-50 dark:bg-slate-800 border border-slate-300 dark:border-slate-700 rounded-lg p-3 text-xs font-mono"></textarea>
+                    </div>
+                    <div>
+                        <label class="block text-xs font-bold mb-1">Transformation Rules</label>
+                        <textarea id="set_rulesPrompt" rows="4" class="w-full bg-slate-50 dark:bg-slate-800 border border-slate-300 dark:border-slate-700 rounded-lg p-3 text-xs font-mono"></textarea>
+                    </div>
+                    <button onclick="app.ui.restorePrompts()" class="text-xs text-primary hover:underline">Restore Default Prompts</button>
+                </section>
             </div>
-            <div class="p-4 border-t border-slate-200 dark:border-slate-800">
-                <button onclick="app.ui.saveSettings()" class="w-full bg-primary text-white font-bold py-3 rounded-xl shadow-lg">Save</button>
+
+            <div class="p-4 border-t border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-950">
+                <button onclick="app.ui.saveSettings()" class="w-full bg-primary text-white font-bold py-3 rounded-xl shadow-lg">Save Configuration</button>
             </div>
         </div>
     </div>
 
     <script>
         const app = {
-            state: { file: null, chunks: [], results: [], finalPDF: null },
+            state: { file: null, chunks: [], results: [], finalPDFBlob: null },
             config: { get: k => localStorage.getItem(`sf_${k}`), set: (k, v) => localStorage.setItem(`sf_${k}`, v) },
 
-            // === FULL MODEL LIST (Requested) ===
+            defaults: {
+                sys: "You are a specialized Accessibility Engine. Convert technical PDF text into \"Spokable Script\" for TTS.",
+                rules: "1. OUTPUT Markdown.\n2. PRESERVE English narrative EXACTLY.\n3. Describe Code logic (no syntax reading).\n4. Summarize Tables.\n5. Expand Math symbols.\n6. Remove headers/footers."
+            },
+
+            // === FULL MODEL ROSTER ===
             models: {
                 gemini: ["gemini-2.5-flash-lite-preview-09-2025", "gemini-2.5-flash-preview-09-2025", "gemini-2.5-pro", "gemini-3-pro-preview"],
                 groq: [
-                    "llama-3.3-70b-versatile", "mixtral-8x7b-32768", "llama-3.1-70b-versatile",
-                    "llama-3.2-90b-text-preview", "gemma2-9b-it", "llama-3.1-8b-instant"
+                    "llama-3.3-70b-versatile",
+                    "llama-3.2-90b-text-preview",
+                    "llama-3.1-70b-versatile",
+                    "mixtral-8x7b-32768",
+                    "gemma2-9b-it",
+                    "llama-3.1-8b-instant"
                 ],
                 cerebras: [
-                    "llama-3.3-70b", "llama3.1-70b", "llama-3.1-8b"
+                    "llama-3.3-70b",
+                    "llama3.1-70b",
+                    "llama-3.1-8b"
                 ]
             },
 
@@ -231,50 +262,33 @@
                 gemini: {
                     url: (m, k) => `https://generativelanguage.googleapis.com/v1beta/models/${m}:generateContent?key=${k}`,
                     headers: () => ({'Content-Type': 'application/json'}),
-                    payload: (sys, user) => ({ contents: [{ parts: [{ text: `${sys}\n\n---\n\n${user}` }] }] }),
+                    payload: (sys, rules, user) => ({ contents: [{ parts: [{ text: `${sys}\n\nRULES:\n${rules}\n\nINPUT:\n${user}` }] }] }),
                     extract: (d) => d.candidates?.[0]?.content?.parts?.[0]?.text
                 },
                 groq: {
                     url: () => `https://api.groq.com/openai/v1/chat/completions`,
                     headers: (k) => ({'Content-Type': 'application/json', 'Authorization': `Bearer ${k}`}),
-                    payload: (sys, user, m) => ({ model: m, messages: [{ role: "system", content: sys }, { role: "user", content: user }] }),
+                    payload: (sys, rules, user, m) => ({ model: m, messages: [{ role: "system", content: `${sys}\n${rules}` }, { role: "user", content: user }] }),
                     extract: (d) => d.choices?.[0]?.message?.content
                 },
                 cerebras: {
                     url: () => `https://api.cerebras.ai/v1/chat/completions`,
                     headers: (k) => ({'Content-Type': 'application/json', 'Authorization': `Bearer ${k}`}),
-                    payload: (sys, user, m) => ({ model: m, messages: [{ role: "system", content: sys }, { role: "user", content: user }] }),
+                    payload: (sys, rules, user, m) => ({ model: m, messages: [{ role: "system", content: `${sys}\n${rules}` }, { role: "user", content: user }] }),
                     extract: (d) => d.choices?.[0]?.message?.content
                 }
             },
 
-            // === INDEXED DB CACHE ===
             db: {
-                init: async () => {
-                    return await idb.openDB('speakflow_v1', 1, {
-                        upgrade(db) {
-                            if (!db.objectStoreNames.contains('records')) {
-                                db.createObjectStore('records', { keyPath: 'id' });
-                            }
-                        },
-                    });
-                },
-                saveRecord: async (file, pdfBlob) => {
+                init: async () => idb.openDB('speakflow_v2', 1, { upgrade(db) { if (!db.objectStoreNames.contains('records')) db.createObjectStore('records', { keyPath: 'id' }); } }),
+                save: async (file, blob) => {
                     const db = await app.db.init();
-                    const id = `${file.name}_${file.size}`;
-                    await db.put('records', {
-                        id: id,
-                        fileName: file.name,
-                        date: new Date(),
-                        originalFile: file,
-                        outputBlob: pdfBlob
-                    });
-                    app.ui.log('Saved to Cache', 'success');
+                    await db.put('records', { id: `${file.name}_${file.size}`, fileName: file.name, date: new Date(), outputBlob: blob });
+                    app.ui.log('Saved to Local Cache', 'success');
                 },
-                checkRecord: async (file) => {
+                check: async (file) => {
                     const db = await app.db.init();
-                    const id = `${file.name}_${file.size}`;
-                    return await db.get('records', id);
+                    return await db.get('records', `${file.name}_${file.size}`);
                 }
             },
 
@@ -298,20 +312,32 @@
                 openSettings: () => {
                     document.getElementById('settingsModal').classList.remove('hidden');
                     setTimeout(() => document.getElementById('settingsPanel').classList.remove('translate-x-full'), 10);
+
                     ['key_gemini','key_groq','key_cerebras'].forEach(k => document.getElementById(k).value = app.config.get(k) || '');
-                    if(app.config.get('pref_gemini_model')) document.getElementById('pref_gemini_model').value = app.config.get('pref_gemini_model');
+                    document.getElementById('set_concurrency').value = app.config.get('set_concurrency') || 1;
+                    document.getElementById('set_retryDelay').value = app.config.get('set_retryDelay') || 2000;
+
+                    // Prompts
+                    document.getElementById('set_sysPrompt').value = app.config.get('set_sysPrompt') || app.defaults.sys;
+                    document.getElementById('set_rulesPrompt').value = app.config.get('set_rulesPrompt') || app.defaults.rules;
                 },
                 closeSettings: () => {
                     document.getElementById('settingsPanel').classList.add('translate-x-full');
                     setTimeout(() => document.getElementById('settingsModal').classList.add('hidden'), 300);
                 },
+                restorePrompts: () => {
+                    document.getElementById('set_sysPrompt').value = app.defaults.sys;
+                    document.getElementById('set_rulesPrompt').value = app.defaults.rules;
+                },
                 saveSettings: () => {
                     ['key_gemini','key_groq','key_cerebras'].forEach(k => app.config.set(k, document.getElementById(k).value.trim()));
-                    app.config.set('set_batchSize', document.getElementById('set_batchSize').value);
+                    app.config.set('set_concurrency', document.getElementById('set_concurrency').value);
                     app.config.set('set_retryDelay', document.getElementById('set_retryDelay').value);
-                    app.config.set('pref_gemini_model', document.getElementById('pref_gemini_model').value);
+                    app.config.set('set_sysPrompt', document.getElementById('set_sysPrompt').value);
+                    app.config.set('set_rulesPrompt', document.getElementById('set_rulesPrompt').value);
                     app.ui.closeSettings();
                     app.ui.checkKeys();
+                    app.ui.log("Configuration Saved", "success");
                 },
                 log: (msg, type) => {
                     const el = document.getElementById('logConsole');
@@ -332,27 +358,23 @@
                     if (!f || f.type !== 'application/pdf') return alert('PDF Only');
                     app.state.file = f;
 
-                    // Check Cache First
-                    const cached = await app.db.checkRecord(f);
+                    const cached = await app.db.check(f);
                     if(cached) {
                         document.getElementById('cacheDate').textContent = `Saved: ${cached.date.toLocaleString()}`;
                         document.getElementById('cacheModal').classList.remove('hidden');
                         app.state.cachedRecord = cached;
                         return;
                     }
-
                     app.core.loadUI(f);
                 },
                 processCache: (useCache) => {
                     document.getElementById('cacheModal').classList.add('hidden');
                     if(useCache) {
-                        // Load Blob directly
                         app.state.finalPDFBlob = app.state.cachedRecord.outputBlob;
                         document.getElementById('dropZone').classList.add('hidden');
                         document.getElementById('resultPanel').classList.remove('hidden');
                         app.ui.log('Loaded from Cache', 'success');
                     } else {
-                        // Reprocess
                         app.core.loadUI(app.state.file);
                     }
                 },
@@ -369,10 +391,12 @@
                     document.getElementById('fileInfoPanel').classList.add('hidden');
                     document.getElementById('progressPanel').classList.remove('hidden');
 
+                    const concurrency = parseInt(app.config.get('set_concurrency') || 1);
+                    document.getElementById('concurrencyIndicator').innerText = `Concurrency: ${concurrency}x`;
+
                     app.ui.log('Extracting Text...');
                     const text = await app.core.extractText(app.state.file);
-                    const batchSize = parseInt(app.config.get('set_batchSize') || 15000);
-                    app.state.chunks = app.core.chunk(text, batchSize);
+                    app.state.chunks = app.core.chunk(text, 15000);
 
                     const container = document.getElementById('batchContainer');
                     container.innerHTML = '';
@@ -384,12 +408,28 @@
 
                     app.state.results = new Array(app.state.chunks.length);
 
-                    for (let i = 0; i < app.state.chunks.length; i++) {
-                        await app.engine.process(app.state.chunks[i], i);
-                        document.getElementById('totalProgressText').textContent = Math.round(((i+1)/app.state.chunks.length)*100) + '%';
-                    }
+                    // === CONCURRENCY LOGIC ===
+                    const limit = concurrency;
+                    let active = 0;
+                    let index = 0;
 
-                    await app.core.finish();
+                    const processNext = async () => {
+                        if (index >= app.state.chunks.length) return;
+                        const i = index++;
+
+                        try {
+                            await app.engine.process(app.state.chunks[i], i);
+                            document.getElementById('totalProgressText').textContent = Math.round(((i+1)/app.state.chunks.length)*100) + '%';
+                        } catch(e) { console.error(e); }
+
+                        await processNext();
+                    };
+
+                    const pool = [];
+                    for(let k=0; k<limit; k++) pool.push(processNext());
+                    await Promise.all(pool);
+
+                    app.core.finish();
                 },
                 extractText: async (f) => {
                     const pdf = await pdfjsLib.getDocument(await f.arrayBuffer()).promise;
@@ -402,6 +442,17 @@
                     t.split('\n').forEach(l => { if(cur.length + l.length > s) { chunks.push(cur); cur = l + "\n"; } else cur += l + "\n"; });
                     if(cur) chunks.push(cur);
                     return chunks;
+                },
+                finish: async () => {
+                    const doc = new window.jspdf.jsPDF();
+                    app.state.results.forEach(res => { if(res) app.core.renderMarkdownToPdf(doc, res); });
+
+                    const pdfBlob = doc.output('blob');
+                    app.state.finalPDFBlob = pdfBlob;
+                    await app.db.save(app.state.file, pdfBlob);
+
+                    document.getElementById('progressPanel').classList.add('hidden');
+                    document.getElementById('resultPanel').classList.remove('hidden');
                 },
                 renderMarkdownToPdf: (doc, markdownText) => {
                     const tokens = marked.lexer(markdownText);
@@ -427,29 +478,12 @@
                         else if (token.type === 'code') { addText(token.text, 11, 'italic'); }
                     });
                 },
-                finish: async () => {
-                    const doc = new window.jspdf.jsPDF();
-                    app.state.results.forEach(res => { if(res) app.core.renderMarkdownToPdf(doc, res); });
-
-                    // Generate Blob
-                    const pdfBlob = doc.output('blob');
-                    app.state.finalPDFBlob = pdfBlob;
-
-                    // Save to DB
-                    await app.db.saveRecord(app.state.file, pdfBlob);
-
-                    document.getElementById('progressPanel').classList.add('hidden');
-                    document.getElementById('resultPanel').classList.remove('hidden');
-                },
                 downloadFinal: () => {
                     if(app.state.finalPDFBlob) {
                         const url = URL.createObjectURL(app.state.finalPDFBlob);
                         const a = document.createElement('a');
-                        a.href = url;
-                        a.download = `spokable_${app.state.file.name}`;
-                        document.body.appendChild(a);
-                        a.click();
-                        document.body.removeChild(a);
+                        a.href = url; a.download = `spokable_${app.state.file.name}`;
+                        document.body.appendChild(a); a.click(); document.body.removeChild(a);
                     }
                 }
             },
@@ -457,15 +491,12 @@
             engine: {
                 process: async (text, idx) => {
                     app.ui.updateBatch(idx, 'processing');
-                    const sysPrompt = `You are a specialized Accessibility Engine. Convert technical PDF text into "Spokable Script" for TTS.
-                    INSTRUCTIONS: 1. OUTPUT Markdown. 2. PRESERVE English narrative EXACTLY. 3. Describe Code logic (no syntax). 4. Summarize Tables. 5. Expand Math. 6. Remove headers/footers.`;
+
+                    const sys = app.config.get('set_sysPrompt') || app.defaults.sys;
+                    const rules = app.config.get('set_rulesPrompt') || app.defaults.rules;
 
                     let attempts = [];
-                    if(app.config.get('key_gemini')) {
-                        const k = app.config.get('key_gemini');
-                        const pref = app.config.get('pref_gemini_model') || app.models.gemini[0];
-                        [pref, ...app.models.gemini.filter(m=>m!==pref)].forEach(m => attempts.push({p:'gemini', m, k}));
-                    }
+                    if(app.config.get('key_gemini')) app.models.gemini.forEach(m => attempts.push({p:'gemini', m, k:app.config.get('key_gemini')}));
                     if(app.config.get('key_groq')) app.models.groq.forEach(m => attempts.push({p:'groq', m, k:app.config.get('key_groq')}));
                     if(app.config.get('key_cerebras')) app.models.cerebras.forEach(m => attempts.push({p:'cerebras', m, k:app.config.get('key_cerebras')}));
 
@@ -475,7 +506,7 @@
                             document.getElementById('activeProvider').textContent = `${att.p}: ${att.m}`;
                             const pd = app.providers[att.p];
                             const res = await fetch(pd.url(att.m, att.k), {
-                                method: 'POST', headers: pd.headers(att.k), body: JSON.stringify(pd.payload(sysPrompt, text, att.m))
+                                method: 'POST', headers: pd.headers(att.k), body: JSON.stringify(pd.payload(sys, rules, text, att.m))
                             });
                             if(!res.ok) throw new Error(res.status);
                             const data = await res.json();
