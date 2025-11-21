@@ -649,6 +649,98 @@
 
                 // HARDCODED DEFAULT ORDER
                 modelData: [
+                    // --- User Preferred Models (Top Priority) ---
+                    {
+                        id: "gemini-3-pro-preview",
+                        name: "Gemini 3 Pro Preview",
+                        provider: "gemini",
+                    },
+                    {
+                        id: "gemini-2.5-pro",
+                        name: "Gemini 2.5 Pro",
+                        provider: "gemini",
+                    },
+                    {
+                        id: "zai-glm-4.6",
+                        name: "Cerebras: Zai GLM 4.6",
+                        provider: "cerebras",
+                    },
+                    {
+                        id: "qwen-3-235b-a22b-instruct-2507",
+                        name: "Cerebras: Qwen 3 235B",
+                        provider: "cerebras",
+                    },
+                    {
+                        id: "gemini-2.5-flash",
+                        name: "Gemini 2.5 Flash",
+                        provider: "gemini",
+                    },
+                    {
+                        id: "gpt-oss-120b",
+                        name: "Cerebras: GPT-OSS-120B",
+                        provider: "cerebras",
+                    },
+                    {
+                        id: "openai/gpt-oss-120b",
+                        name: "Groq: GPT-OSS-120B",
+                        provider: "groq",
+                    },
+                    {
+                        id: "llama-3.3-70b",
+                        name: "Cerebras: Llama 3.3 70B",
+                        provider: "cerebras",
+                    },
+                    {
+                        id: "llama-3.3-70b-versatile",
+                        name: "Groq: Llama 3.3 70B",
+                        provider: "groq",
+                    },
+                    {
+                        id: "llama-3.2-90b-text-preview",
+                        name: "Groq: Llama 3.2 90B",
+                        provider: "groq",
+                    },
+                    {
+                        id: "llama-3.1-70b-versatile",
+                        name: "Groq: Llama 3.1 70B",
+                        provider: "groq",
+                    },
+                    {
+                        id: "gemini-2.5-flash-lite-preview-09-2025",
+                        name: "Gemini 2.5 Flash Lite",
+                        provider: "gemini",
+                    },
+                    {
+                        id: "gemma2-9b-it",
+                        name: "Groq: Gemma 2 9B",
+                        provider: "groq",
+                    },
+                    {
+                        id: "llama-3.1-8b-instant",
+                        name: "Groq: Llama 3.1 8B",
+                        provider: "groq",
+                    },
+                    {
+                        id: "llama3.1-70b",
+                        name: "Cerebras: Llama 3.1 70B",
+                        provider: "cerebras",
+                    },
+                    {
+                        id: "mixtral-8x7b-32768",
+                        name: "Groq: Mixtral 8x7b",
+                        provider: "groq",
+                    },
+                    {
+                        id: "qwen-3-32b",
+                        name: "Cerebras: Qwen 3 32B",
+                        provider: "cerebras",
+                    },
+                    {
+                        id: "llama3.1-8b",
+                        name: "Cerebras: Llama 3.1 8B",
+                        provider: "cerebras",
+                    },
+
                     // --- OpenRouter (DeepSeek & Top Tier) ---
                     {
                         id: "deepseek/deepseek-r1:free",
@@ -698,7 +790,7 @@
                         provider: "sambanova",
                     },
 
-                    // --- Gemini ---
+                    // --- Gemini (Newer) ---
                     {
                         id: "gemini-2.0-flash",
                         name: "Gemini 2.0 Flash",
@@ -715,17 +807,7 @@
                         provider: "gemini",
                     },
 
-                    // --- Groq ---
-                    {
-                        id: "llama-3.3-70b-versatile",
-                        name: "Groq: Llama 3.3 70B",
-                        provider: "groq",
-                    },
-                    {
-                        id: "mixtral-8x7b-32768",
-                        name: "Groq: Mixtral 8x7b",
-                        provider: "groq",
-                    },
+                    // --- Groq (Newer) ---
                     {
                         id: "deepseek-r1-distill-llama-70b",
                         name: "Groq: DeepSeek R1 Distill",
@@ -759,18 +841,6 @@
                         id: "command-r-08-2024",
                         name: "Cohere: Command R",
                         provider: "cohere",
-                    },
-
-                    // --- Cerebras ---
-                    {
-                        id: "llama3.1-70b",
-                        name: "Cerebras: Llama 3.1 70B",
-                        provider: "cerebras",
-                    },
-                    {
-                        id: "llama-3.3-70b",
-                        name: "Cerebras: Llama 3.3 70B",
-                        provider: "cerebras",
                     },
                 ],
 
