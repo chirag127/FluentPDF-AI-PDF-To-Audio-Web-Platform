@@ -643,8 +643,8 @@
                 defaults: {
                     concurrency: 5,
                     retry: 3000,
-                    sys: "You are an expert Audiobook Script Writer. Your goal is to convert technical documents (PDFs) into engaging, listenable audio scripts. You must rewrite raw code, tables, and diagrams into natural, descriptive English suitable for Text-to-Speech. Never read raw code or data structures verbatim.",
-                    rules: "1. **NARRATIVE FLOW**: Rewrite content as a continuous, engaging narrative. Avoid bullet points if possible; use full sentences.\n2. **CODE & DATA**: Do NOT read code (SQL, Python, etc.) or tables row-by-row. Instead, describe what they do (e.g., 'This SQL script creates three tables for a fantasy sports database: performance, league, and team...').\n3. **VISUALS**: Describe charts and diagrams naturally (e.g., 'The chart shows a steady increase in revenue...').\n4. **CLEANUP**: Fix broken OCR text, join hyphenated words, and remove page numbers/headers/footers.\n5. **NO FILLER**: Output ONLY the script. No 'Here is the text' or markdown code blocks.",
+                    sys: "You are an expert Audiobook Script Writer. Your goal is to convert technical documents (PDFs) into engaging, listenable audio scripts. You must rewrite raw code, tables, and diagrams into natural, descriptive English suitable for Text-to-Speech. Never read raw code or data structures verbatim. CRITICAL: Do NOT add spaces between letters in words.",
+                    rules: "1. **NARRATIVE FLOW**: Rewrite content as a continuous, engaging narrative. Avoid bullet points if possible; use full sentences.\n2. **CODE & DATA**: Do NOT read code (SQL, Python, etc.) or tables row-by-row. Instead, describe what they do (e.g., 'This SQL script creates three tables for a fantasy sports database: performance, league, and team...').\n3. **VISUALS**: Describe charts and diagrams naturally (e.g., 'The chart shows a steady increase in revenue...').\n4. **CLEANUP**: Fix broken OCR text, join hyphenated words, and remove page numbers/headers/footers.\n5. **NO FILLER**: Output ONLY the script. No 'Here is the text' or markdown code blocks.\n6. **CRITICAL**: Write normal words without spaces between letters. 'files' not 'f i l e s'.",
                 },
 
                 // HARDCODED DEFAULT ORDER
@@ -1563,9 +1563,23 @@
                                 .replace(/`/g, "");
 
                             // Ensure no zero-width spaces or weird chars interfere
-                            const sanitizedText = cleanText.replace(
+                            let sanitizedText = cleanText.replace(
                                 /[\u200B-\u200D\uFEFF]/g,
                                 ""
+                            );
+
+                            // CRITICAL FIX: Remove spaces between individual letters
+                            // Pattern: "w o r d" -> "word"
+                            // This regex finds words where each letter is separated by a space
+                            sanitizedText = sanitizedText.replace(
+                                /\b([a-zA-Z])\s+(?=[a-zA-Z]\s+[a-zA-Z])/g,
+                                "$1"
+                            );
+
+                            // Additional cleanup: collapse multiple spaces
+                            sanitizedText = sanitizedText.replace(
+                                /\s{2,}/g,
+                                " "
                             );
 
                             const lines = doc.splitTextToSize(
