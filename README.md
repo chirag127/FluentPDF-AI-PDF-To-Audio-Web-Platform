@@ -1,99 +1,60 @@
 # FluentPDF - Bulletproof PDF Engine
 
-FluentPDF is a powerful, browser-based Single Page Application (SPA) designed to convert technical documents (PDFs) into engaging audio scripts suitable for Text-to-Speech (TTS) engines. It leverages advanced Large Language Models (LLMs) to intelligently rewrite raw code, tables, diagrams, and technical jargon into natural, descriptive English.
+[![CI](https://github.com/chirag127/FluentPDF-Convert-To-Readable-Spokable-Pdf-Website/actions/workflows/ci.yml/badge.svg)](https://github.com/chirag127/FluentPDF-Convert-To-Readable-Spokable-Pdf-Website/actions/workflows/ci.yml)
+[![Biome](https://img.shields.io/badge/code_style-biome-yellow.svg)](https://biomejs.dev)
+[![TypeScript](https://img.shields.io/badge/TypeScript-5.0-blue.svg)](https://www.typescriptlang.org/)
+[![Vite](https://img.shields.io/badge/Vite-5.0-646CFF.svg)](https://vitejs.dev/)
 
-**[Live Website](https://chirag127.github.io/FluentPDF-Convert-To-Readable-Spokable-Pdf-Website/)**
+**FluentPDF** is an elite, zero-dependency, single-file web application designed to convert technical PDFs into natural, spoken-word audio scripts using advanced LLMs.
 
-**"Bulletproof PDF Engine"**: Designed for resilience, FluentPDF handles large documents by chunking them and processing them in parallel across multiple LLM providers, ensuring that even if one provider fails or rate-limits, the process continues seamlessly.
+**"Zero-Defect. High-Velocity. Future-Proof."**
 
-## 🚀 Key Features
+## 🚀 Features
 
-*   **Intelligent PDF Parsing**: visually parses PDF documents to extract text while maintaining context.
-*   **Natural Language Transformation**: Converts code blocks, SQL queries, and complex data tables into narrative descriptions (e.g., "The code defines a function that calculates...").
-*   **Multi-Provider Support**: Integrate with top-tier LLM providers including:
-    *   **Gemini** (Google)
-    *   **Groq** (Llama, Mixtral, Gemma)
-    *   **Cerebras**
-    *   **OpenRouter** (DeepSeek, etc.)
-    *   **SambaNova**
-    *   **Mistral**
-    *   **Cohere**
-*   **Bulletproof Resilience**:
-    *   **Unlimited Concurrency**: Process hundreds of chunks simultaneously.
-    *   **Auto-Failover**: Automatically switches models/providers on API errors or rate limits.
-    *   **Infinite Retry**: Will keep trying until a chunk is successfully processed.
-*   **Customizable Workflow**:
-    *   **Drag-and-Drop Model Priority**: Define which models to attempt first.
-    *   **Custom Prompts**: Tweak the System Instruction and Transformation Rules to match your specific needs.
-*   **Privacy Focused**: Runs entirely in your browser. Your files are processed locally and only the extracted text chunks are sent to the LLM APIs you configure.
-*   **Local Caching**: Automatically caches converted books using IndexedDB, allowing you to reload previous works instantly.
-*   **Dark Mode**: sleek UI with toggleable dark/light themes.
+*   **Intelligent Parsing**: Visual extraction of PDF content.
+*   **LLM Transformation**: Converts code/tables to narrative English.
+*   **Multi-Provider**: Gemini, Groq, Cerebras, OpenRouter, Mistral, Cohere.
+*   **Bulletproof**: Infinite retry, auto-failover, unlimited concurrency.
+*   **Privacy-First**: Local processing, direct API calls (no middleman).
+*   **Zero-Install**: Runs as a single `index.html` file.
 
-## 🛠️ Tech Stack
+## 🛠️ Tech Stack (Apex Standards)
 
-FluentPDF is built with modern web technologies and zero build steps:
-*   **HTML5 / JavaScript (ES6+)**
-*   **Tailwind CSS** (via CDN) for styling.
-*   **Font Awesome** for icons.
-*   **PDF.js** for PDF extraction.
-*   **jsPDF** for generating the final script PDF.
-*   **IDB** for IndexedDB interaction.
-*   **Marked** for Markdown parsing.
-*   **Sortable.js** for drag-and-drop interfaces.
+*   **Core**: TypeScript (Strict), Vite, Tailwind CSS.
+*   **Quality**: Biome (Lint/Format), Vitest (Test), GitHub Actions (CI/CD).
+*   **Architecture**: Modular, Feature-First, SOLID, Clean Code.
 
-## 📖 How It Works
+## 📦 Usage
 
-1.  **Upload**: You drag and drop a PDF file into the application.
-2.  **Extract**: The app uses `pdf.js` to extract raw text from the document.
-3.  **Chunk**: The text is split into manageable chunks (approx. 15,000 characters).
-4.  **Process**:
-    *   The engine sends these chunks to the configured LLM providers in parallel.
-    *   It follows your "Model Priority" list. If the first model fails (e.g., rate limit), it instantly tries the next one.
-    *   The LLM rewrites the content based on the "Transformation Rules" (e.g., "Rewrite code as a narrative").
-5.  **Assemble**: The processed chunks are reassembled.
-6.  **Export**: A new PDF is generated (`fluentpdf_[filename].pdf`) containing the clean, read-aloud script.
+### Development
 
-## 🚦 Getting Started
+1.  **Install**: `npm install`
+2.  **Dev Server**: `npm run dev` (Not configured in package.json yet, use `npx vite`)
+3.  **Test**: `npm test`
+4.  **Lint**: `npm run lint`
 
-### Prerequisites
-*   A modern web browser (Chrome, Firefox, Edge, Safari).
-*   API Keys for at least one of the supported providers (Gemini, Groq, etc.).
+### Build
 
-### Installation
-No installation is required. FluentPDF is a standalone HTML file.
+To generate the standalone `index.html`:
 
-1.  Clone this repository or download the `index.html` file.
-2.  Open `index.html` directly in your browser.
+```bash
+npm run build
+```
 
-### Usage
+The output will be in `dist/index.html`.
 
-1.  **Open Settings**: Click the sliders icon (<i class="fa-solid fa-sliders"></i>) in the top right.
-2.  **Add API Keys**: Enter your API keys for the providers you wish to use.
-    *   *Tip: Groq and Gemini often have generous free tiers.*
-3.  **Configure Priority (Optional)**: Drag and drop models in the "Model Priority" list to set your preference order.
-4.  **Upload PDF**: Drag your PDF book onto the drop zone.
-5.  **Convert**: Click the "Convert" button.
-6.  **Monitor**: Watch the progress bar and batch map.
-    *   🟡 Yellow: Processing
-    *   🟢 Green: Success
-    *   🔴 Red: Retrying/Error
-7.  **Download**: Once finished, download your optimized script.
+## 🏗️ Architecture
 
-## ⚙️ Configuration
-
-The settings panel allows deep customization:
-
-*   **Concurrency**: How many chunks to process in parallel (Default: 100). Higher numbers are faster but hit rate limits harder.
-*   **System Instruction**: The persona the AI adopts (e.g., "You are an expert Audiobook Script Writer").
-*   **Transformation Rules**: Specific rules for rewriting (e.g., "Do NOT read code verbatim").
-*   **Config Backup**: Export your API keys and settings to a JSON file to move between devices.
-
-## 🔒 Privacy & Security
-
-*   **Local Processing**: All file parsing and PDF generation happens locally in your browser.
-*   **API Keys**: Your API keys are stored in your browser's `localStorage` and are never sent to any server other than the respective LLM API endpoints.
-*   **Data Usage**: The text content of your PDF is sent to the LLM providers for processing. Please review the data privacy policies of the providers you use (Google, Groq, etc.) regarding how they handle API data.
+```
+src/
+├── features/       # Feature-based modules (LLM, PDF)
+├── shared/         # Shared utilities (Config, DB)
+├── ui/             # UI Controllers & Components
+├── main.ts         # Application Entry Point
+└── style.css       # Global Styles (Tailwind)
+tests/              # Mirror of src/
+```
 
 ## 📄 License
 
-This project is open-source. Feel free to modify and distribute.
+Open Source.
