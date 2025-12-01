@@ -36,12 +36,6 @@ describe("ConfigManager", () => {
         const createElement = vi
             .spyOn(document, "createElement")
             .mockReturnValue(anchor as unknown as HTMLElement);
-        const _appendChild = vi
-            .spyOn(document.body, "appendChild")
-            .mockImplementation(() => anchor as unknown as HTMLElement);
-        const _removeChild = vi
-            .spyOn(document.body, "removeChild")
-            .mockImplementation(() => anchor as unknown as HTMLElement);
 
         ConfigManager.setApiKey("test", "123");
         ConfigManager.export();
