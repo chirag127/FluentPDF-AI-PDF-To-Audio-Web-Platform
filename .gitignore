@@ -1,56 +1,51 @@
-# Apex Standard Gitignore - December 2025
+# Node.js modules
+node_modules
 
-# Node.js
-npm-debug.log*
-yarn-debug.log*
-yarn-error.log*
-node_modules/
-package-lock.json
-yarn.lock
-.pnpm-debug.log*
+# Build outputs
+/dist
+/build
+/out
 
-# Vite
-.vite/
-dist/
-*.local
+# Vite-specific caches and logs
+.vite
+*.timestamp-*
 
-# Tauri (Rust/Node)
-.local/
-src-tauri/target/
-src-tauri/Cargo.lock
+# Tauri-specific build output and logs
+src-tauri/target
+src-tauri/out
 
-# TypeScript
-*.tsbuildinfo
-
-# Biome (Linter/Formatter)
-.biome/
-
-# Playwright (E2E)
-playwright-report/
-junit.xml
-*.log
-
-# Environment Variables
+# Environment variables
 .env
 .env.local
+.env.*local
 .env.development.local
 .env.test.local
 .env.production.local
 
-# OS Generated Files
+# Logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+pnpm-debug.log*
+lerna-debug.log*
+
+# Editor specific
+.vscode
+.idea
+*.sublime-project
+*.sublime-workspace
+
+# OS specific
 .DS_Store
 Thumbs.db
 
-# Build artifacts
-.output/
-build/
-coverage/
+# Test coverage reports
+/coverage
 
-# Logs
-*.log
-logs/
+# Other generated files
+*.tsbuildinfo
+*.js.map
+*.d.ts
 
-# Editor/IDE specific
-.vscode/
-.idea/
-*.swp
+# Dependencies
+package-lock.json
