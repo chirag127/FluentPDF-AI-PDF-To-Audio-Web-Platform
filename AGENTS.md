@@ -6,7 +6,7 @@
 **Output Standard:** Deliver **EXECUTION-ONLY** results. No plans, no "reporting"—only executed code, updated docs, and applied fixes.
 **Philosophy:** "Zero-Defect, High-Velocity, Future-Proof."
 
---- 
+---
 
 ## 2. INPUT PROCESSING & COGNITION
 *   **SPEECH-TO-TEXT INTERPRETATION PROTOCOL:**
@@ -19,111 +19,75 @@
     *   **Validation:** Use `docfork` to verify *every* external API signature.
     *   **Reasoning:** Engage `clear-thought-two` to architect complex flows *before* writing code.
 
---- 
+---
 
 ## 3. CONTEXT-AWARE APEX TECH STACKS (LATE 2025 STANDARDS)
-**Directives:** Detect the project type and apply the corresponding **Apex Toolchain**. This repository, `FluentPDF-Audio-Narrative-Generation-Web-App`, is a modern web application.
+**Directives:** Detect the project type and apply the corresponding **Apex Toolchain**. This repository, `FluentPDF-AI-PDF-To-Audio-Web-Platform`, is a TypeScript-based Web Application.
 
-*   **PRIMARY SCENARIO: WEB / APP / EXTENSION (TypeScript)**
-    *   **Stack:** This project leverages **TypeScript 6.x (Strict)**. Core technologies include **Vite 7 (Rolldown)** for lightning-fast builds, **Tailwind CSS v4** for utility-first styling, and **Tauri v2.x** for building native desktop applications (if applicable, otherwise focuses on web-first principles). The architecture follows **Feature-Sliced Design (FSD)**.
-    *   **Linting & Formatting:** **Biome** is utilized for comprehensive code quality checks and formatting, ensuring consistency and speed across the codebase.
-    *   **Testing:** **Vitest** is the primary tool for unit and integration tests, with **Playwright** for end-to-end testing to guarantee application reliability and user experience.
-    *   **AI Integration:** Utilizes **in-browser LLM integration** for privacy-first, zero-data-leakage processing. Focus on modular design, clear API contracts, and robust error handling for all AI model interactions.
-    *   **Dependency Management:** `npm` or `yarn` is used, with `uv` potentially integrated for advanced build-time dependency management if adopted by the broader ecosystem.
+*   **PRIMARY SCENARIO: WEB / APP / GUI (Modern Frontend)**
+    *   **Stack:** This project leverages **TypeScript 6.x (Strict)**. Key tools include **Vite 7** (with Rolldown bundler) for lightning-fast development, **Tauri v2.x** for cross-platform desktop packaging if needed, **React 19** for component-based UI, and **Tailwind CSS v4** for utility-first styling. State management should adhere to **Signals** (Standardized API).
+    *   **Architecture:** Adheres to **Feature-Sliced Design (FSD)** for maintainable and scalable frontend architecture. The application prioritizes a **Zero-Dependency** approach where feasible, especially for core logic.
+    *   **Linting & Formatting:** **Biome** is the unified tool for linting, formatting, and code style checks, ensuring consistency and speed.
+    *   **Testing:** **Vitest** is utilized for unit and integration testing, with **Playwright** for end-to-end (E2E) testing.
+    *   **AI Integration:** Integrates with **in-browser, multi-provider LLMs (Gemini, Groq)**. All LLM interactions must be managed client-side to ensure absolute data privacy. Securely handle API keys or explore local model execution strategies.
+    *   **CI/CD:** Configured via **GitHub Actions** for automated builds, testing, and deployments.
 
-*   **SECONDARY SCENARIO: DATA / SCRIPTS / AI (Python) - *Not applicable for this project's primary function.***
-    *   **Stack:** Python 3.10+ with `uv` (Manager), `Ruff` (Linter), `Pytest` (Test).
+*   **SECONDARY SCENARIO B: SYSTEMS / PERFORMANCE (Low Level) - *Not applicable for this project's primary function.***
+    *   **Stack:** Rust (Cargo), Go (Modules).
+    *   **Lint:** Clippy / GolangCI-Lint.
+    *   **Architecture:** Hexagonal Architecture (Ports & Adapters).
+
+*   **TERTIARY SCENARIO C: DATA / AI / SCRIPTS (Python) - *Not applicable for this project's primary function.***
+    *   **Stack:** uv (Manager), Ruff (Linter), Pytest (Test).
     *   **Architecture:** Modular Monolith or Microservices.
 
---- 
+---
 
-## 4. ARCHITECTURAL GOVERNANCE
-*   **CORE PRINCIPLES:** Adherence to SOLID, DRY, KISS, and YAGNI principles is paramount. Code must be maintainable, scalable, and testable.
-*   **MODULARITY:** Emphasize clear separation of concerns. Feature-Sliced Design (FSD) is the mandated pattern for frontend architecture, ensuring logical grouping of features and layers.
-*   **DATA FLOW:** Implement predictable and explicit data flow. Avoid hidden side effects.
-*   **ERROR HANDLING:** Implement robust, context-aware error handling. Exceptions should be informative and actionable. Network requests and AI interactions require specific retry and fallback strategies.
+## 4. DEVELOPMENT COMMANDS & WORKFLOWS
+*   **RELEVANT COMMANDS (EXAMPLE - ADAPT FOR ACTUAL STACK):
+    *   `git clone https://github.com/chirag127/FluentPDF-AI-PDF-To-Audio-Web-Platform.git`
+    *   `cd FluentPDF-AI-PDF-To-Audio-Web-Platform`
+    *   `npm install` (or `yarn install`, `pnpm install`, `bun install` based on project setup)
+    *   `npm run dev` (or `yarn dev`, `pnpm dev`, `bun dev`) - For local development server.
+    *   `npm run build` - For production build.
+    *   `npm run test` - For running unit/integration tests (Vitest).
+    *   `npx playwright test` - For running E2E tests.
+    *   `npx @biomejs/biome check --apply src/` - For linting and formatting.
+*   **CODE REVIEWS:** All pull requests MUST be reviewed by at least one other maintainer before merging.
+*   **MERGE STRATEGY:** Use squash merges to maintain a clean Git history.
 
---- 
+---
 
-## 5. DEVELOPMENT LIFECYCLE & TOOLING
-*   **SETUP:** Ensure a frictionless `git clone` to `development-ready` experience.
-*   **BUILD:** Utilize Vite 7 for optimized and rapid frontend builds.
-*   **TESTING:**
-    *   **Unit/Integration:** Vitest is the standard. Aim for high code coverage.
-    *   **E2E:** Playwright for comprehensive end-to-end validation.
-    *   **LINT/FORMAT:** Biome ensures code style and quality compliance automatically.
-*   **CI/CD:** GitHub Actions are configured via `ci.yml` for automated builds, tests, and deployments.
+## 5. PRINCIPLES & STANDARDS (FAANG LEVEL)
+*   **SOLID:** Ensure adherence to Single Responsibility, Open/Closed, Liskov Substitution, Interface Segregation, and Dependency Inversion principles.
+*   **DRY (Don't Repeat Yourself):** Eliminate redundant code through abstraction and modularization.
+*   **YAGNI (You Ain't Gonna Need It):** Implement only the functionality that is currently required.
+*   **KISS (Keep It Simple, Stupid):** Favor simple, straightforward solutions over complex ones.
+*   **Privacy-First:** Critical for this project. All client-side operations must protect user data. Never transmit raw PII or sensitive document content unless absolutely necessary and with explicit consent.
+*   **Zero-Dependency Design:** Prioritize minimizing external dependencies to enhance security, performance, and maintainability, especially for core functionalities.
 
---- 
+---
 
-## 6. SECURITY POSTURE (DECEMBER 2025 UPDATE)
-*   **THREAT MODELING:** Proactively identify and mitigate potential security vulnerabilities, especially concerning LLM interactions and data handling.
-*   **IN-BROWSER LLM:** Leverage the inherent security of in-browser processing to prevent data exfiltration. Sanitize all inputs and outputs.
-*   **DEPENDENCY SCANNING:** Regularly scan dependencies for known vulnerabilities using tools integrated into the CI pipeline.
-*   **OWASP TOP 10:** Maintain awareness and defense against the latest OWASP Top 10 web application security risks.
-*   **DATA PRIVACY:** Strict adherence to privacy regulations (GDPR, CCPA, etc.). Zero-knowledge principle is a primary design goal.
+## 6. TESTING STRATEGY
+*   **Unit Tests:** Comprehensive unit tests using **Vitest** for individual functions, components, and modules. Aim for >80% code coverage.
+*   **Integration Tests:** Test the interaction between different modules and services using **Vitest**.
+*   **End-to-End (E2E) Tests:** Robust E2E tests using **Playwright** to simulate user flows and validate the application's behavior from a user's perspective.
+*   **Performance Testing:** Monitor and optimize performance, especially concerning LLM interactions and PDF processing, using profiling tools and **Vitest** performance benchmarks.
+*   **Cross-Browser/Platform Testing:** Ensure compatibility across major browsers and relevant platforms (desktop via Tauri if applicable) using **Playwright**.
 
---- 
+---
 
-## 7. COMMUNICATION & COLLABORATION
-*   **CONTRIBUTING:** Follow the guidelines in `.github/CONTRIBUTING.md`.
-*   **ISSUES:** Utilize templates in `.github/ISSUE_TEMPLATE/` for bug reports and feature requests.
-*   **PULL REQUESTS:** Follow the standards outlined in `.github/PULL_REQUEST_TEMPLATE.md`.
-*   **CODE REVIEWS:** Expect thorough, constructive code reviews focused on quality, maintainability, and adherence to architectural standards.
+## 7. AI AGENT DIRECTIVES
+*   **LLM PROVIDER MANAGEMENT:** The application utilizes multiple LLM providers (Gemini, Groq) via in-browser execution. Implement robust provider switching logic, error handling, and potentially a fallback mechanism.
+*   **DATA PRIVACY SHIELD:** **ABSOLUTE PRIORITY.** All LLM interactions are client-side. Never log or transmit sensitive PDF content or user data to external servers. Utilize browser-native capabilities for data processing.
+*   **PERFORMANCE OPTIMIZATION:** Focus on efficient PDF parsing and tokenization to minimize LLM costs and improve user experience. Optimize audio generation for naturalness and speed.
+*   **VOCALIZATION ENGINE:** Employ high-quality Text-to-Speech (TTS) engines, potentially leveraging browser APIs or specialized libraries, to generate natural-sounding audio narratives.
+*   **FUTURE-PROOFING:** Design the AI integration layer to be easily extensible for new LLM providers or future AI capabilities.
 
---- 
+---
 
-## 8. REPOSITORY STRUCTURE & METADATA (LATE 2025 STANDARD)
-*   **NAMING:** `FluentPDF-Audio-Narrative-Generation-Web-App` - Descriptive, high-volume keywords, adhering to the `<Product>-<Function>-<Platform>-<Type>` formula.
-*   **METADATA:** `README.md`, `LICENSE`, `.gitignore`, `badges.yml`, and configuration files are mandatory.
-*   **DOCUMENTATION:** Comprehensive `README.md` and essential documentation within the codebase.
-
---- 
-
-## 9. DEPLOYMENT & INFRASTRUCTURE (LATEST STANDARDS)
-*   **TARGET PLATFORMS:** Web (Browser), potentially Desktop via Tauri.
-*   **CI/CD PIPELINE:** Automated deployments triggered by the CI workflow (`ci.yml`). Prioritize zero-downtime deployments.
-*   **INFRASTRUCTURE AS CODE (IAC):** If applicable for deployment environments, use modern IAC tools (e.g., Terraform, Pulumi).
-
---- 
-
-## 10. AI AGENT DIRECTIVES FOR `FluentPDF-Audio-Narrative-Generation-Web-App`
-**Purpose:** To provide future AI agents and developers with immediate context regarding the project's technical stack, architecture, and operational directives.
-
-<details>
-<summary>Click to Expand AI Agent Directives</summary>
-
-### **PROJECT:** `FluentPDF-Audio-Narrative-Generation-Web-App`
-
-### **TECHNOLOGY STACK (LATE 2025):**
-*   **Language:** TypeScript 6.x (Strict Mode Enabled)
-*   **Build Tool:** Vite 7 (Rolldown Core)
-*   **Styling:** Tailwind CSS v4
-*   **UI Framework/Library:** React (or similar modern, component-based framework)
-*   **Native/Desktop Packaging:** Tauri v2.x (if applicable for desktop build)
-*   **Linting & Formatting:** Biome (Strict Configuration)
-*   **Unit & Integration Testing:** Vitest
-*   **End-to-End Testing:** Playwright
-*   **AI Integration:** In-browser LLM (e.g., Web LLM, transformers.js)
-*   **PDF Processing:** Client-side PDF parsing libraries (e.g., pdf.js, pdf-parse)
-
-### **ARCHITECTURAL PATTERNS:**
-*   **Frontend:** Feature-Sliced Design (FSD)
-*   **General:** SOLID Principles, DRY (Don't Repeat Yourself), KISS (Keep It Simple, Stupid), YAGNI (You Ain't Gonna Need It)
-*   **State Management:** Signals or context API (choose based on project complexity and framework)
-
-### **VERIFICATION COMMANDS:**
-*   **Install Dependencies:** `npm install` (or `yarn install`)
-*   **Run Development Server:** `npm run dev` (or `yarn dev`)
-*   **Build for Production:** `npm run build` (or `yarn build`)
-*   **Run Linters & Formatters:** `npm run lint` (or `yarn lint`), `npm run format` (or `yarn format`)
-*   **Run Unit/Integration Tests:** `npm test` (or `yarn test`)
-*   **Run End-to-End Tests:** `npm run e2e` (or `yarn e2e`)
-
-### **OPERATIONAL GUIDELINES:**
-*   **Privacy First:** All LLM processing and data handling MUST occur client-side. Zero data leakage is the primary objective.
-*   **Performance:** Optimize for fast load times and responsive UI, especially during PDF processing and audio generation.
-*   **Accessibility:** Ensure the application is accessible to users with disabilities.
-*   **Error Handling:** Implement robust error handling for all asynchronous operations, network requests, and AI interactions.
-
-</details>
+## 8. SECURITY POSTURE
+*   **CLIENT-SIDE SECURITY:** Focus on securing API keys (if any are exposed client-side, use environment variables and robust obfuscation) and preventing Cross-Site Scripting (XSS) attacks.
+*   **DEPENDENCY SCANNING:** Regularly scan project dependencies for vulnerabilities using tools integrated into the CI/CD pipeline.
+*   **DATA HANDLING:** Strict adherence to privacy-first principles for all user-provided data (PDFs).
+*   **LLM EXPLOITS:** Be aware of prompt injection and other LLM-specific vulnerabilities, although client-side execution mitigates many server-side risks.
