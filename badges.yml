@@ -1,0 +1,43 @@
+build_status:
+  provider: github_actions
+  workflow_name: CI
+  branches:
+    - main
+
+code_coverage:
+  provider: codecov
+  url: https://codecov.io/gh/chirag127/FluentPDF-AI-PDF-To-Audio-Web-Platform
+
+tech_stack_lang:
+  provider: custom
+  text: TypeScript
+  url: https://github.com/chirag127/FluentPDF-AI-PDF-To-Audio-Web-Platform
+  icon: "#3178C6"
+
+tech_stack_framework:
+  provider: custom
+  text: Vite
+  url: https://github.com/chirag127/FluentPDF-AI-PDF-To-Audio-Web-Platform
+  icon: "#f4c743"
+
+linter:
+  provider: custom
+  text: Biome
+  url: https://github.com/chirag127/FluentPDF-AI-PDF-To-Audio-Web-Platform
+  icon: "#1463FF"
+
+tests:
+  provider: custom
+  text: Vitest
+  url: https://github.com/chirag127/FluentPDF-AI-PDF-To-Audio-Web-Platform
+  icon: "#55DD33"
+
+license:
+  provider: license
+  text: CC BY-NC 4.0
+  url: https://github.com/chirag127/FluentPDF-AI-PDF-To-Audio-Web-Platform/blob/main/LICENSE
+
+github_stars:
+  provider: github_stars
+  owner: chirag127
+  repo: FluentPDF-AI-PDF-To-Audio-Web-Platform
