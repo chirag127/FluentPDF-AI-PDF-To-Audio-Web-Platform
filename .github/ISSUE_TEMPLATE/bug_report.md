@@ -1,70 +1,45 @@
----
-name: 🐛 Bug Report
-about: Report an issue or unexpected behavior in FluentPDF
-title: "[BUG] - Short, descriptive summary of the issue"
-labels: ["bug", "triage"]
-assignees: ""
-projects: []
+# Bug Report
 
----
+## Environment
 
-## 🔴 CORE PROBLEM STATEMENT (BLUF)
+Please provide the following details about your environment:
 
-> Describe the bug in one concise sentence. **What happened** vs **What was expected?**
+*   **Repository:** `FluentPDF-AI-PDF-To-Audio-Web-Platform`
+*   **Version:** [Specify the version or commit hash if known]
+*   **Operating System:** [e.g., Windows 11, macOS Sonoma, Ubuntu 22.04]
+*   **Browser (if applicable):** [e.g., Chrome 125, Firefox 124, Safari 17.4]
+*   **Node.js Version (if applicable):** [e.g., v20.11.0]
+*   **Python Version (if applicable):** [e.g., 3.10.12]
 
----
+## Description
 
-## 🔬 ENVIRONMENT & CONTEXT
+A clear and concise description of the bug. What did you expect to happen, and what actually happened?
 
-To expedite resolution, please provide comprehensive context regarding where and how the failure occurred. Adherence to these fields ensures alignment with the **Apex Technical Authority's** zero-defect standard.
+## Steps to Reproduce
 
-### 1. APPLICATION VERSION
-<!-- Use the current semantic version (e.g., 1.2.0 or latest build hash) -->
-- **FluentPDF Version:** 
+Provide clear, step-by-step instructions to reproduce the behavior. Use code blocks for commands or specific inputs.
 
-### 2. PLATFORM DETAILS
+1.  [First step]
+2.  [Second step]
+3.  [Third step]
+    bash
+    # Example command
+    your-command --argument value
+    
+4.  [Continue until the bug is revealed]
 
-- **Operating System:** (e.g., Windows 11, macOS Sonoma 14.5, Ubuntu 24.04)
-- **Browser/Runtime:** (e.g., Chrome 120, Node 20.x, Tauri/Electron Shell)
+## Expected Behavior
 
-### 3. AI/LLM CONFIGURATION
+Describe what you expected to happen after following the steps above.
 
-<!-- Which provider and settings were active when the bug manifested? -->
-- **Active LLM Provider:** (e.g., Gemini Pro, Groq Llama 3, Local WASM)
-- **Audio Synthesis Setting:** (e.g., High Fidelity, Standard Speed)
+## Actual Behavior
 
----
+Describe what actually happened. Include any error messages, unexpected output, or incorrect behavior.
 
-## 📝 STEPS TO REPRODUCE
+## Screenshots or Videos (Optional)
 
-Follow these steps precisely. The process must be 100% repeatable. Use numeric lists.
+If possible, add screenshots or a short video to help explain your problem.
 
-1. Navigate to the main processing page (`/convert`).
-2. Upload PDF: `[Name of specific PDF file or general characteristics, e.g., 150-page technical manual]`.
-3. Configure settings: `[List specific settings used, e.g., Target Speed: 1.2x, Skip Images: True]`.
-4. Initiate conversion/playback.
-5. **Observed Result:** `[What actually happened? Error message, incorrect audio, crash, etc.]`
-6. **Expected Result:** `[What should have happened based on the application's promise?]`
+## Additional Context (Optional)
 
----
-
-## 💾 ARTIFACTS & EVIDENCE
-
-Provide any necessary supporting data. **Security Note:** Do not upload proprietary or highly sensitive documents. If necessary, upload a redacted or minimal example file that reproduces the issue.
-
-### Console Logs
-<!-- Paste the raw console output (including errors/warnings) from the browser developer tools or terminal. -->
-```console
-
-```
-
-### Screen Recording / Screenshots
-<!-- Link to an external host (Imgur, Cloud Storage) if necessary. -->
-
----
-
-## 💡 ADDITIONAL CONTEXT (If Applicable)
-
-*   **Prior State:** Did this ever work correctly? If so, what changed immediately before the failure? (e.g., Updated Node.js, changed API key configuration).
-*   **Workaround:** Have you found any temporary method to avoid this issue?
-*   **Architectural Observation:** Does this appear related to state management, I/O handling, or LLM response parsing? (Optional, for advanced contributors.)
+Add any other context about the problem here. For example, relevant logs, configuration details, or specific PDF files that trigger the bug.
