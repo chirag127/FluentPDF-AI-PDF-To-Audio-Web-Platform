@@ -1,66 +1,56 @@
+# Pull Request Checklist & Architectural Review
+
+**Repository:** `FluentPDF-AI-PDF-To-Audio-Web-Platform`
+**Context:** This platform transforms technical PDFs into natural audio using in-browser LLMs, emphasizing privacy.
+
 --- 
-name: Feature / Fix / Refactor Request
-about: Propose a high-quality change to the FluentPDF Audio Narrative Generator Web App.
-title: 'feat(scope): Concise description of the change'
-labels: ['needs review', 'status: pending']
-assignees: ['chirag127']
----
 
-## 🚀 PULL REQUEST GATE CHECKLIST
+## 1. Summary & Intent (BLUF)
 
-**Failure to complete this checklist may result in the immediate closure of the PR.**
+*Provide a concise, 2-sentence summary of what this PR achieves. Focus on user value or architectural impact.* 
 
-- [ ] **Code Quality:** All new and modified code adheres to the [Biome](https://github.com/chirag127/FluentPDF-Audio-Narrative-Generation-Web-App) formatting and linting standards (`pnpm lint:fix` ran successfully).
-- [ ] **Testing:** Appropriate unit tests (Vitest) have been added or updated to cover all new logic, achieving **100% statement coverage** for the new code block.
-- [ ] **E2E Verification:** Playwright E2E tests have been executed locally and passed, verifying critical user paths remain functional.
-- [ ] **Feature-Sliced Design (FSD) Compliance:** All changes adhere strictly to the FSD structure (layers, slices, segments). No forbidden cross-layer imports exist.
-- [ ] **Documentation:** README.md or relevant documentation (if API/Interface changes) has been updated.
-- [ ] **Performance Review:** Changes do not introduce significant runtime performance regressions (especially in PDF parsing or LLM calls).
+[Your Summary Here]
 
----
+## 2. Architectural Alignment & Verification
 
-## 🌟 PR TYPE & SUMMARY
+This submission must align with the **Apex Technical Authority** standards (Future-Proof, Zero-Defect).
 
-### Type of Change
-_Select all that apply._
+### A. Core Principles Check
 
-- [ ] ✨ Feature (Adds new functionality)
-- [ ] 🐛 Bug Fix (Corrects an existing issue)
-- [ ] 🔨 Refactor (Code structure improvement without changing external behavior)
-- [ ] 📚 Documentation (Updates to `README.md` or other docs)
-- [ ] ⚙️ CI/CD or Infrastructure (Changes to `.github/workflows` or deployment)
+- [ ] **SOLID Adherence:** Have I minimized dependencies and maximized interface clarity? (If applicable to added component).
+- [ ] **DRY Principle:** Is this logic duplicated elsewhere? If so, it must be refactored into a shared utility/module.
+- [ ] **YAGNI Check:** Am I building functionality that is not immediately required by the specification or user story?
+- [ ] **Data Privacy:** Does this change introduce any unauthorized external data transmission (especially concerning LLM interaction or PDF parsing)? (MUST be `false` for in-browser operations).
 
-### Description
-Please provide a detailed, high-level summary of the changes in this Pull Request.
-_Link related issues here: Closes #ISSUE_NUMBER_
+### B. Technology Stack Verification (TypeScript/Vite/FSD)
 
-## 🏗️ TECHNICAL IMPLEMENTATION & ARCHITECTURE
+- [ ] **TypeScript Strictness:** Are new files or modified functions adhering to strict type definitions? Are `any` types forbidden unless explicitly justified to the Architect?
+- [ ] **Feature-Sliced Design (FSD):** If adding new features, are they correctly placed within `features/`, `entities/`, `pages/`, or `shared/` layers?
+- [ ] **Performance:** Does this change negatively impact initial load time (Vite bundle size) or runtime (LLM inference overhead)?
 
-1.  **Affected FSD Layers/Slices:** Which part of the architecture did this touch? (e.g., `features/audio-generation`, `shared/ui`, `app/providers`).
-2.  **Key Architectural Decision:** Briefly explain why this approach was chosen (e.g., "Used Web Workers to isolate PDF parsing heavy lifting from the main thread").
-3.  **LLM/Data Handling (CRITICAL):** If this PR touches data processing or LLM interaction, confirm:
-    *   Is data strictly processed in-browser? [ ] Yes / [ ] No (If No, STOP and justify security implications).
-    *   Are performance metrics (latency, payload size) acceptable? [ ] Yes
-4.  **Security Impact:** Does this PR introduce new dependencies or handle user inputs? If so, detail steps taken to prevent XSS/injection vulnerabilities.
+## 3. Testing and Validation
 
-## 🧪 TESTING & VERIFICATION STEPS
+*All functional changes require corresponding tests.*
 
-To the reviewer: Please confirm these steps execute correctly.
+- [ ] **Unit Tests (Vitest):** Have I added or updated Vitest tests for all new or modified core logic (e.g., utility functions, state management)?
+- [ ] **E2E Tests (Playwright):** If modifying user flows or critical paths (e.g., PDF upload -> audio playback initiation), have Playwright scenarios been updated/created?
+- [ ] **Linting/Formatting:** Does the code pass `biome check --apply` and `biome format --apply`?
 
-1.  **Setup:** Clone this branch and run `pnpm install`.
-2.  **Testing Environment:** Start the application via `pnpm dev`.
-3.  **Specific Reproduction Steps:**
-    *   Step 1: Navigate to [Specific Path].
-    *   Step 2: Upload a 10MB PDF.
-    *   Step 3: Verify the generated audio narrative starts within X seconds.
-4.  **Screenshots/Gifs (Optional but Recommended):** Attach visual proof of the changes working.
+## 4. Files Changed Summary
 
-## 📝 CODE REVIEW GUIDANCE
+List the main files or directories impacted and briefly explain the rationale for the change in that specific location (e.g., *`src/features/audio-playback/model/index.ts`: Refactored audio context initialization to use Web Audio API for better cross-browser compatibility.*).
 
-Reviewer Focus Areas:
-- FSD compliance, specifically focusing on dependency directionality.
-- Performance characteristics, especially around Web Workers/LLM threading.
-- TypeScript strictness enforcement and type safety.
+1. 
+2. 
+3. 
 
----
-*(This template is enforced by the Apex Technical Authority. High Standards = High Velocity.)*
+## 5. Agent Alignment
+
+If this PR modifies the architectural guidelines (e.g., switching Linter, changing testing framework), please update the directives in `.github/AGENTS.md` accordingly *before* requesting final merge approval.
+
+--- 
+
+**Reviewer:** Please assign at least one reviewer. Architectural conflicts will be resolved by invoking the **Apex Technical Authority** override.
+
+**Approver Signature:**
+`[Approved by Architect/Lead]`
